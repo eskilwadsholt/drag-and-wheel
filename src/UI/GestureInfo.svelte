@@ -1,12 +1,10 @@
 <script lang="ts">
-    import { Gesture } from "../events/gestures";
-import type { Point } from "../helpers/calculus";
+    import type { Point } from "../helpers/calculus";
     import { currentGesture } from "../stores/drag-tracking"
 
     $: gesture = $currentGesture
 
-    const pointString = (P: Point) => `(${P.x}, ${P.y})`
-    const velocityString = (P: Point) => `(${P.x.toFixed(1)}, ${P.y.toFixed(1)})`
+    const pointString = (P: Point) => `(${P.x.toFixed(0)}, ${P.y.toFixed(0)})`
 </script>
 
 <main>

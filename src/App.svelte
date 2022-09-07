@@ -23,16 +23,15 @@ import GestureGraphics from "./UI/GestureGraphics.svelte"
 
 <style>
 	main {
+		position: fixed;
+		left: 0;
+		top: 0;
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 		background: #0006;
 		flex: 1;
-	}
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+		width: 100%;
+		height: 100%;
 	}
 </style>

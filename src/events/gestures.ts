@@ -153,6 +153,7 @@ class GestureManager {
 
     // Event dispatchers
     down = (e: MouseEvent | TouchEvent, P: Point) => {
+        e.preventDefault()
         this.gesture = new Gesture(P)
         const info: GestureInfo = { detail: {
                 e,
@@ -162,6 +163,7 @@ class GestureManager {
     }
 
     move = (e: MouseEvent | TouchEvent, P: Point) => {
+        e.preventDefault()
         this.gesture = this.gesture.moveTo(P)
         const info: GestureInfo = { detail: {
             e,
