@@ -180,6 +180,7 @@ function gestures(node: HTMLElement) {
 
     const manager = new GestureManager(node)
     node.addEventListener("mousedown", manager.mouseDown)
+    node.addEventListener("touchstart", manager.touchDown)
 }
 
 export default gestures
