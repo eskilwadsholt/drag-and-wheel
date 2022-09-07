@@ -25,7 +25,7 @@ export class Gesture {
         const dx = result.P.x - this.P.x
         const dy = result.P.y - this.P.y
 
-        const keep = Math.exp(-dt * 0.010)
+        const keep = Math.exp(-dt * 0.025)
         const add = 1 - keep
         // Pixel movement per second
         const newX = 1000 * dx / dt
@@ -115,6 +115,38 @@ class GestureManager {
     mouseUp = () => {
         document.removeEventListener("mousemove", this.mouseMove)
         document.removeEventListener("mouseup", this.mouseUp)
+
+        this.up()
+    }
+
+    // Touch handlers
+    singleTouchPoint = (e: TouchEvent) : Point => {
+        const singleTouch = e.touches[0]
+
+        return {
+            x: singleTouch.clientX,
+            y: singleTouch.clientY
+        }
+    }
+
+    touchDown = (e: TouchEvent) => {
+        if (e.touches.length != 1) return
+
+        document.addEventListener("touchmove", this.touchMove)
+        document.addEventListener("touchend", this.touchUp)
+
+        this.down(e, this.singleTouchPoint(e))
+    }
+
+    touchMove = (e: TouchEvent) => {
+        if (e.touches.length != 1) return
+
+        this.move(e, this.singleTouchPoint(e))
+    }
+
+    touchUp = () => {
+        document.removeEventListener("touchmove", this.touchMove)
+        document.removeEventListener("touchend", this.touchUp)
 
         this.up()
     }

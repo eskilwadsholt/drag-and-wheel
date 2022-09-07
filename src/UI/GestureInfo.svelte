@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { Point } from "../helpers/calculus";
+    import { Gesture } from "../events/gestures";
+import type { Point } from "../helpers/calculus";
     import { currentGesture } from "../stores/drag-tracking"
 
     $: gesture = $currentGesture
@@ -36,7 +37,28 @@
                 </tr>
                 <tr>
                     <td>velocity</td>
-                    <td>{velocityString(gesture.velocity)}</td>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        x
+                                    </td>
+                                    <td>
+                                        {gesture.velocity.x.toFixed(0)}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        y
+                                    </td>
+                                    <td>
+                                        {gesture.velocity.y.toFixed(0)}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             {/if}
         </tbody>
@@ -46,15 +68,15 @@
 <style>
     main {
         position: fixed;
-        left: 10px;
         top: 0;
+        left: 0;
     }
     .styled-table {
         border-collapse: collapse;
-        margin: 25px 0;
+        margin: 5px;
         font-size: 0.9em;
         font-family: sans-serif;
-        min-width: 400px;
+        min-width: 300px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
     .styled-table thead tr {
@@ -76,5 +98,9 @@
 
     .styled-table tbody tr:last-of-type {
         border-bottom: 2px solid #009879;
+    }
+    thead tr th:first-child,
+    tbody tr td:first-child {
+        width: 8em;
     }
 </style>
