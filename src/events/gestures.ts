@@ -1,7 +1,7 @@
 import { Calculus } from "../helpers/calculus"
 import type { Point } from "../helpers/calculus"
 
-class Gesture {
+export class Gesture {
 
     start: Gesture
     time: number
@@ -18,28 +18,32 @@ class Gesture {
         }
     }
 
-    moveTo(P: Point) : Gesture {
+    moveTo = (P: Point) => {
         let result = new Gesture(P)
         result.start = this.start
         const dt = result.time - this.time
         const dx = result.P.x - this.P.x
         const dy = result.P.y - this.P.y
 
-        if (dt > 0) {
-            result.velocity = {
-                x: this.velocity.x * 0.5 + 1000 * dx / dt * 0.5,
-                y: this.velocity.y * 0.5 + 1000 * dy / dt * 0.5
-            }
-        }
-        else {
-            result.velocity = this.velocity
+        const keep = Math.exp(-dt * 0.010)
+        const add = 1 - keep
+        // Pixel movement per second
+        const newX = 1000 * dx / dt
+        const newY = 1000 * dy / dt
+        result.velocity = {
+            x: add * newX + keep * this.velocity.x,
+            y: add * newY + keep * this.velocity.y
         }
 
         return result
     }
     
-    distance() {
+    distance = () => {
         return Calculus. distance(this.start.P, this.P)
+    }
+
+    duration = () => {
+        return this.time - this.start.time
     }
 }
 

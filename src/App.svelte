@@ -1,17 +1,24 @@
 <script lang="ts">
 	import gestures from "./events/gestures"
+	import { currentGesture } from "./stores/drag-tracking"
+import GestureGraphics from "./UI/GestureGraphics.svelte"
+	import GestureInfo from "./UI/GestureInfo.svelte"
 
-	export let name: string
+	const handleGesture = (e: CustomEvent) => {
+		$currentGesture = e.detail.gesture
+	}
+
+	const resetGesture = () => $currentGesture = null
 </script>
 
 <main  class="noselect"
 	use:gestures
-	on:down={(e) => console.log("down", e.detail.gesture.P)}
-	on:move={(e) => console.log("move", e.detail.gesture.P)}
-	on:up={() => console.log("up")}
+	on:down={handleGesture}
+	on:move={handleGesture}
+	on:up={resetGesture}
 >
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<GestureInfo/>
+	<GestureGraphics/>
 </main>
 
 <style>
@@ -20,15 +27,9 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+		background: #0006;
+		flex: 1;
 	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
