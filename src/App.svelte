@@ -1,8 +1,7 @@
 <script lang="ts">
 	import gestures from "./events/gestures"
 	import { currentGesture } from "./stores/drag-tracking"
-import GestureGraphics from "./UI/GestureGraphics.svelte"
-	import GestureInfo from "./UI/GestureInfo.svelte"
+	import GestureGraphics from "./UI/GestureGraphics.svelte"
 
 	const handleGesture = (e: CustomEvent) => {
 		$currentGesture = e.detail.gesture
@@ -17,7 +16,6 @@ import GestureGraphics from "./UI/GestureGraphics.svelte"
 	on:move={handleGesture}
 	on:up={resetGesture}
 >
-	<GestureInfo/>
 	<GestureGraphics/>
 </main>
 

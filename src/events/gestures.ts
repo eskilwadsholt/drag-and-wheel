@@ -25,21 +25,26 @@ export class Gesture {
         const dx = result.P.x - this.P.x
         const dy = result.P.y - this.P.y
 
-        const keep = Math.exp(-dt * 0.025)
-        const add = 1 - keep
+        // small dt => keep close to 1
+        const keep = Math.exp(-dt * 0.01)
+        const update = 1 - keep
         // Pixel movement per second
         const newX = 1000 * dx / dt
         const newY = 1000 * dy / dt
         result.velocity = {
-            x: add * newX + keep * this.velocity.x,
-            y: add * newY + keep * this.velocity.y
+            x: update * newX + keep * this.velocity.x,
+            y: update * newY + keep * this.velocity.y
         }
 
         return result
     }
     
     distance = () => {
-        return Calculus. distance(this.start.P, this.P)
+        return Calculus.distance(this.start.P, this.P)
+    }
+
+    angleFrom = (P: Point) => {
+        return Calculus.angle(this.start.P, P, this.P);
     }
 
     duration = () => {
@@ -178,7 +183,7 @@ class GestureManager {
 }
 
 function gestures(node: HTMLElement) {
-    demo()
+    //demo()
 
     const manager = new GestureManager(node)
     node.addEventListener("mousedown", manager.mouseDown)
