@@ -2,7 +2,7 @@
     import { currentGesture } from "../stores/drag-tracking"
     export let size
 
-    $: gesture = currentGesture
+    $: gesture = $currentGesture
     let rotation = 0
 
     let P, r, R, n
@@ -13,8 +13,10 @@
         n = size.n
     }
 
-    $: if ($gesture && P) {
-        rotation = $gesture.angleFrom(P)
+    $: if (gesture && P) {
+        rotation = gesture.angleFrom(P)
+    } else {
+        rotation = 0
     }
 
     let angles
@@ -33,6 +35,12 @@
 
         return { x, y }
     }
+
+    const useNegativeAngles = (angle) => {
+        if (angle > Math.PI) return angle - 2 * Math.PI
+
+        return angle
+    }
 </script>
 
 <circle cx={P.x} cy={P.y} r={R} fill="#CCC"/>/>
@@ -40,4 +48,4 @@
     <line x1={P.x} y1={P.y} x2={spoke(angle - rotation).x} y2={spoke(angle - rotation).y} stroke="#000" stroke-width="3"/>
 {/each}
 <circle cx={P.x} cy={P.y} {r} fill="#555"/>/>
-<text text-anchor="middle" x={P.x} y={P.y - R - 5}>{rotation.toDegrees().toFixed(0) + "°"}</text>
+<text text-anchor="middle" x={P.x} y={P.y - R - 5}>{useNegativeAngles(rotation).toDegrees().toFixed(0) + "°"}</text>
